@@ -3,7 +3,6 @@ from multiprocessing import Process
 from proxypool.api import app
 from proxypool.getter import Getter
 from proxypool.tester import Tester
-from proxypool.db import RedisClient
 from proxypool.setting import *
 
 
@@ -36,15 +35,18 @@ class Scheduler():
     
     def run(self):
         print('代理池开始运行')
-        
+
+        # 测试进程
         if TESTER_ENABLED:
             tester_process = Process(target=self.schedule_tester)
             tester_process.start()
-        
+
+        # 获取进程
         if GETTER_ENABLED:
             getter_process = Process(target=self.schedule_getter)
             getter_process.start()
-        
+
+        # web进程
         if API_ENABLED:
             api_process = Process(target=self.schedule_api)
             api_process.start()

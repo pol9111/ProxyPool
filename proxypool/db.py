@@ -26,7 +26,7 @@ class RedisClient(object):
         if not re.match('\d+\.\d+\.\d+\.\d+\:\d+', proxy):
             print('代理不符合规范', proxy, '丢弃')
             return
-        if not self.db.zscore(REDIS_KEY, proxy):
+        if not self.db.zscore(REDIS_KEY, proxy): # 如果代理没有分数就增加, 无也加入
             return self.db.zadd(REDIS_KEY, score, proxy)
     
     def random(self):
@@ -51,9 +51,12 @@ class RedisClient(object):
         :return: 修改后的代理分数
         """
         score = self.db.zscore(REDIS_KEY, proxy)
-        if score and score > MIN_SCORE:
-            print('代理', proxy, '当前分数', score, '减1')
-            return self.db.zincrby(REDIS_KEY, proxy, -1)
+        # if score and score < MIN_SCORE:
+        if score:
+            # print('代理', proxy, '当前分数', score, '减1')
+            score = self.db.zincrby(REDIS_KEY, proxy, -1)
+            print('代理', proxy, '当前分数', score, '移除')
+            return self.db.zrem(REDIS_KEY, proxy)
         else:
             print('代理', proxy, '当前分数', score, '移除')
             return self.db.zrem(REDIS_KEY, proxy)
@@ -99,7 +102,7 @@ class RedisClient(object):
         return self.db.zrevrange(REDIS_KEY, start, stop - 1)
 
 
-if __name__ == '__main__':
-    conn = RedisClient()
-    result = conn.batch(680, 688)
-    print(result)
+# if __name__ == '__main__':
+#     conn = RedisClient()
+#     result = conn.batch(680, 688)
+#     print(result)

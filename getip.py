@@ -22,7 +22,7 @@ def write_ip(ip):
     for each_ip in ip:
         if not each_ip in proxy_list:
             with open('C:\\Users\Alex\Desktop\Memorandum\Scrapy\IP.txt', 'a+') as f:
-                content = '{\"ip_prot\":' + '\"' + each_ip + '\"' + ',' '\"user_passwd\":' + '\"\"},' + '\n'
+                content = '{\"http\":' + ' ' + '\"https://' + '' + each_ip + '\"' + '},' + '\n'
                 # content = '{\"ip_prot\":' + '\"' + each_ip + '\"' + '},' + '\n'
                 f.write(content)
                 t += 1

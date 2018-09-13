@@ -22,9 +22,9 @@ class Getter():
         print('获取器开始执行')
         if not self.is_over_threshold():
             for callback_label in range(self.crawler.__CrawlFuncCount__):
-                callback = self.crawler.__CrawlFunc__[callback_label]
+                callback = self.crawler.__CrawlFunc__[callback_label] # 第i个爬虫
                 # 获取代理
-                proxies = self.crawler.get_proxies(callback)
+                proxies = self.crawler.get_proxies(callback) # 调用爬虫函数
                 sys.stdout.flush()
                 for proxy in proxies:
-                    self.redis.add(proxy)
+                    self.redis.add(proxy) # ip首次入库
