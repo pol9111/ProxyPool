@@ -5,8 +5,8 @@ from proxypool.setting import MAX_SCORE, MIN_SCORE, INITIAL_SCORE
 from random import choice
 import re
 
-
 class RedisClient(object):
+
     def __init__(self, host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD):
         """
         初始化
@@ -102,7 +102,3 @@ class RedisClient(object):
         return self.db.zrevrange(REDIS_KEY, start, stop - 1)
 
 
-# if __name__ == '__main__':
-#     conn = RedisClient()
-#     result = conn.batch(680, 688)
-#     print(result)

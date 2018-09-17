@@ -19,6 +19,7 @@ VALID_STATUS_CODES = [200, 302]
 # 代理池数量界限
 POOL_UPPER_THRESHOLD = 50000
 
+
 # 检查周期(秒)
 TESTER_CYCLE = 60
 # 获取周期(秒)

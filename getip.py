@@ -1,4 +1,4 @@
-import requests, os
+import requests
 
 PROXY_POOL_URL = 'http://localhost:5555/random'
 

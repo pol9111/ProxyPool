@@ -1,0 +1,71 @@
+tester.py  修改
+
+import asyncio
+import aiohttp
+import time
+import sys
+from aiohttp import ClientError
+from proxypool.db import RedisClient
+from proxypool.setting import *
+
+class Tester(object):
+
+    def __init__(self):
+        self.redis = RedisClient()
+
+    async def fetch(self, proxy, session):
+        """测试器"""
+        # if isinstance(proxy, bytes):
+        #     proxy = proxy.decode('utf-8')
+        real_proxy = 'http://' + proxy
+        print('正在测试', proxy)
+        async with session.get(TEST_URL, proxy=real_proxy, timeout=20) as response: # 发送请求
+            return await response.text()
+
+
+
+    async def test_single_proxy(self, proxies):
+        """测试代理"""
+        task_list = []
+        async with aiohttp.ClientSession() as session:
+            for proxy in proxies:
+                tasks = asyncio.ensure_future(self.fetch(proxy, session))
+                task_list.append(tasks)
+            return await asyncio.gather(*task_list)
+
+    async def check(self, proxies):
+        tasks = await self.test_single_proxy(proxies)
+        for html in tasks:
+            print(html)
+        # rst = eval(res)
+        # fake_ip = rst.get('headers').get('X-Forwarded-For')
+        # ip = res.split(':')
+        # print(fake_ip, ip[0])
+        # if fake_ip == ip[0]:
+        #     self.redis.max(proxy)
+        #     print('代理可用', proxy)
+
+
+    def run(self):
+        """
+        测试主函数
+        :return:
+        """
+        print('测试器开始运行')
+        try:
+            count = self.redis.count()
+            print('当前剩余', count, '个代理')
+            for i in range(0, count, BATCH_TEST_SIZE):
+                loop = asyncio.get_event_loop()
+                start = i
+                stop = min(i + BATCH_TEST_SIZE, count)
+                print('正在测试第', start + 1, '-', stop, '个代理')
+                test_proxies = self.redis.batch(start, stop)
+
+                proxies = [proxy for proxy in test_proxies]
+                tasks = [self.check(proxies)]
+                loop.run_until_complete(asyncio.gather(*tasks))
+                sys.stdout.flush() # 马上print不用等到循环结束
+                time.sleep(5)
+        except Exception as e:
+            print('测试器发生错误', e.args)
