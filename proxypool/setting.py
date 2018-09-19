@@ -21,9 +21,9 @@ POOL_UPPER_THRESHOLD = 50000
 
 
 # 检查周期(秒)
-TESTER_CYCLE = 60
+TESTER_CYCLE = 80
 # 获取周期(秒)
-GETTER_CYCLE = 120
+GETTER_CYCLE = 70
 
 ## 测试API，建议抓哪个网站测哪个
 # 如果是http的去掉s

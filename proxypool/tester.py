@@ -49,7 +49,7 @@ class Tester(object):
         """
         print('测试器开始运行')
         try:
-            count = self.redis.count()
+            count = self.redis.count
             print('当前剩余', count, '个代理')
             for i in range(0, count, BATCH_TEST_SIZE):
                 start = i

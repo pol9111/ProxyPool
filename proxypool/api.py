@@ -34,8 +34,13 @@ def get_counts():
     :return: 代理池总量
     """
     conn = get_conn()
-    return str(conn.count())
+    return str(conn.count)
 
+@app.route('/scount')
+def get_count_100():
+    """代理池一百分的代理总数"""
+    conn = get_conn()
+    return str(conn.scount)
 
 if __name__ == '__main__':
     app.run()
