@@ -17,8 +17,10 @@ python run.py
 
 <br>
 
-修改自https://github.com/Germey/ProxyPool
-抓取proxy改成异步, 优化了测试proxy异步代码
+修改自https://github.com/Germey/ProxyPool 
+
+抓取proxy改成异步, 优化了测试proxy异步代码 
+
 提高了代理可用性
 
 
