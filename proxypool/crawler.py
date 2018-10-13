@@ -39,7 +39,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                     ip = tr.find('td:nth-child(1)').text()
                     port = tr.find('td:nth-child(2)').text()
                     ip_port = ':'.join([ip, port])
-                    proxies.append(ip_port)
+                    proxy = {'https':'http://'+ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_ip3366(self):
@@ -59,7 +60,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                     for address, port in zip(re_ip_address, re_port):
                         address_port = address+':'+port
                         ip_port = address_port.replace(' ','')
-                        proxies.append(ip_port)
+                        proxy = {'https':'http://'+ip_port}
+                        proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_ip3366_(self):
@@ -71,10 +73,13 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
             for page in html:
                 ip_address = re.compile('<tr>\s*<td>(.*?)</td>\s*<td>(.*?)</td>')
                 re_ip_address = ip_address.findall(page)
+                # ip_port = [(re_ip_address[i] + ':' + re_port[i]).replace(' ', '') for i in range(len(re_port))]
+                # proxies.append(ip_port)
                 for address, port in re_ip_address:
                     result = address+':'+ port
                     ip_port = result.replace(' ', '')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_kuaidaili(self):
@@ -91,7 +96,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 for address,port in zip(re_ip_address, re_port):
                     address_port = address+':'+port
                     ip_port = address_port.replace(' ','')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_xicidaili(self):
@@ -118,7 +124,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                     for address,port in zip(re_ip_address, re_port):
                         address_port = address+':'+port
                         ip_port = address_port.replace(' ', '')
-                        proxies.append(ip_port)
+                        proxy = {'https':'http://'+ip_port}
+                        proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_iphai(self):
@@ -137,7 +144,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 for address,port in zip(re_ip_address, re_port):
                     address_port = address+':'+port
                     ip_port = address_port.replace(' ', '')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_data5u(self):
@@ -163,7 +171,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
             for address, port in re_ip_address:
                 result = address + ':' + port
                 ip_port = result.replace(' ', '')
-                proxies.append(ip_port)
+                proxy = {'https': 'http://' + ip_port}
+                proxies.append(proxy)
             self.save_to_db(proxies)
 
 # 近期修改的
@@ -179,7 +188,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
             for td in tds:
                 td.find('p').remove()
                 ip_port = td.text().replace('\n', '')
-                proxies.append(ip_port)
+                proxy = {'https': 'http://' + ip_port}
+                proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_89ip(self):
@@ -195,7 +205,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 for ip, port in zip(ips, ports):
                     result = ip.text() + ':' + port.text()
                     ip_port = result.replace(' ', '')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_ip181(self):
@@ -211,7 +222,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 port = i.get('port')
                 result = ip + ':' + port
                 ip_port = result.replace(' ', '')
-                proxies.append(ip_port)
+                proxy = {'https': 'http://' + ip_port}
+                proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_premproxy(self):
@@ -225,7 +237,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 re_ip_address = ip_address.findall(page)
                 for address_port in re_ip_address:
                     ip_port = address_port.replace(' ', '')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
     async def crawl_xroxy(self):
@@ -244,7 +257,8 @@ class Crawler(object, metaclass=ProxyMetaclass): # 继承ProxyMetaclass, 拥有_
                 for address,port in zip(re_ip_address1,re_ip_address2):
                     address_port = address+':'+port
                     ip_port = address_port.replace(' ','')
-                    proxies.append(ip_port)
+                    proxy = {'https': 'http://' + ip_port}
+                    proxies.append(proxy)
             self.save_to_db(proxies)
 
 # 网页没了, 其他原因用不了的

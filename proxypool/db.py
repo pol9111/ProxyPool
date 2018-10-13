@@ -23,8 +23,8 @@ class RedisClient(object):
         :param score: 分数
         :return: 添加结果
         """
-        if not re.match('\d+\.\d+\.\d+\.\d+\:\d+', proxy):
-            print('代理不符合规范', proxy, '丢弃')
+        if not re.match("http\://\d+\.\d+\.\d+\.\d+\:\d+", proxy['https']):
+            print('代理不符合规范', proxy['https'], '丢弃')
             return
         if not self.db.zscore(REDIS_KEY, proxy): # 如果代理没有分数就增加, 无也加入
             return self.db.zadd(REDIS_KEY, score, proxy)
@@ -46,14 +46,11 @@ class RedisClient(object):
         """
         score = self.db.zscore(REDIS_KEY, proxy)
         if score and score > MIN_SCORE:
-            if score:
-                # print('代理', proxy, '当前分数', score, '减1')
-                # score = self.db.zincrby(REDIS_KEY, proxy, -1)
-                print('代理', proxy, '当前分数', score, '移除')
-                return self.db.zrem(REDIS_KEY, proxy)
-            else:
-                print('代理', proxy, '当前分数', score, '移除')
-                return self.db.zrem(REDIS_KEY, proxy)
+            print('代理', proxy, '当前分数', score, '减1')
+            self.db.zincrby(REDIS_KEY, proxy, -1)
+        else:
+            print('代理', proxy, '当前分数', score, '移除')
+            return self.db.zrem(REDIS_KEY, proxy)
 
     def exists(self, proxy):
         """
@@ -61,7 +58,7 @@ class RedisClient(object):
         :param proxy: 代理
         :return: 是否存在
         """
-        return not self.db.zscore(REDIS_KEY, proxy) == None
+        return not self.db.zscore(REDIS_KEY, proxy) is None
 
     def random(self):
         """

@@ -4,6 +4,7 @@ from proxypool.crawler import Crawler
 from proxypool.setting import *
 
 class Getter:
+
     def __init__(self):
         self.redis = RedisClient()
         self.crawler = Crawler()
